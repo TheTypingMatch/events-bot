@@ -1,4 +1,7 @@
 # Events Bot
+![](https://img.shields.io/discord/650827847941881860?style=flat&logo=discord)
+![Node.js CI](https://github.com/TheTypingMatch/events-bot/workflows/Node.js%20CI/badge.svg)
+
 A Discord.js bot for hosting typing tournaments in TheTypingMatch community Discord.
 
 ## Contribute
