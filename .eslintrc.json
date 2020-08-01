@@ -30,6 +30,7 @@
         "camelcase": 1, 
         "comma-spacing": 1, 
         "no-var": 1, 
-        "indent": ["error", 4, { "SwitchCase": 1 }]
+        "indent": ["error", 4, { "SwitchCase": 1 }],
+        "semi": [2, "always"]
     }
 }
