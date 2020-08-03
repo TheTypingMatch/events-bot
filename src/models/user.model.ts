@@ -17,9 +17,29 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    pairing: {
+    opponent: {
         type: Object,
         required: false
+    },
+    pastOpponents: {
+        type: Array,
+        required: false,
+        default: []
+    },
+    avgWpm: {
+        type: Number,
+        required: false,
+        default: 0
+    },
+    eliminations: {
+        type: Number,
+        required: false,
+        default: 0
+    },
+    rounds: {
+        type: Number,
+        required: false,
+        default: 0
     }
 })
 
