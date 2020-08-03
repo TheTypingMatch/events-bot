@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema({
     discordId: {
         type: String,
         required: true
+    },
+    pairing: {
+        type: Object,
+        required: false
     }
 })
 
