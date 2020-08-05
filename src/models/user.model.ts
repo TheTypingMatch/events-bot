@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
         required: false,
         default: 0
     },
-    eliminations: {
+    losses: {
         type: Number,
         required: false,
         default: 0

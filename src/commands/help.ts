@@ -7,7 +7,7 @@ const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
 const replaceCommas = (str: string[]) => `${str}`.replace(/,/g, '\n')
 
 const addCommandField = (info: {}) => {
-    const infoDescription = Object.entries(info).map(desc => `\`$${desc[0]}\` ${desc[1]}`)
+    const infoDescription = Object.entries(info).map(desc => `\`/${desc[0]}\` ${desc[1]}`)
     return replaceCommas(infoDescription)
 }
 
@@ -16,7 +16,7 @@ export default (msg, client, args) => {
         .setColor(colors.green)
         .setAuthor('Help', msg.author.avatarURL())
         .setTimestamp(new Date())
-        .setFooter(`LeCashBot v${version}`)
+        .setFooter(`EventsBot v${version}`)
         .addField('Categories', helpInfo.descInfo)
 
     if (args[0]) {
