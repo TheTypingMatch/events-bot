@@ -55,7 +55,7 @@ export default async (msg, client, args) => {
         .addField('Round Wins', `**${rounds - losses}** wins`, true)
         .addField('Past Opponents', formatOpponents(pastOpponents), true)
         .addField('\u200b', '\u200b', true)
-        .addField('Current Pairing', (opponent) ? `<@${opponent}>` : 'N/A', true)
+        .addField('Current Pairing', (opponent) ? `<@${opponent.discordId}> - **${opponent.avgWpm}**wpm` : 'N/A', true)
 
     return msg.channel.send(statsEmbed)
 }

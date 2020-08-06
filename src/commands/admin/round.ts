@@ -1,19 +1,40 @@
-const User = require('../models/user.model')
+import { User } from '../../models/user.model'
+import { Loser } from '../../models/losers.model'
 
-const pair = (users, client, msg) => {
-    const seeds = users.sort((a, b) => (a.avgWpm > b.avgWpm) ? 1 : -1)
+// Sorted by average WPM speed
+const createSeed = users => users.sort((a, b) => (a.avgWpm > b.avgWpm) ? 1 : -1)
 
-    /*
+const pair = (users, client, msg, model) => {
+    const seeds = createSeed(users)
 
-        1. Make fair pairings
-        2. Add pairings to user models
+    console.log(seeds)
 
-    */
+    for (let i = 0; i < seeds.length; i++) {
+        let ID: any = { discordId: seeds[i].discordId }
+        let newOpponent: any = seeds[(i % 2 === 0) ? i + 1 : i - 1]
 
-    return msg.reply('This command is in development.')
+        console.log(`${ID.discordId} is paired with ${newOpponent.discordId}`)
+
+
+        model.updateOne(ID, {
+            opponent: {
+                discordId: newOpponent.discordId,
+                avgWpm: newOpponent.avgWpm
+            }
+        }).then(err => {
+            if (err) {
+                return client.error(err)
+            }
+        })
+    }
+
+    return msg.reply(`A bracket has been updated. 2 should update.`)
 }
 
-export default (msg, client, args) => {
-    return User.find({ eliminated: false })
-        .then(data => pair(data, client, msg))
+export default async (msg, client, args) => {
+    const winners = await User.find()
+    const losers = await Loser.find()
+
+    pair(winners, client, msg, User)
+    return pair(losers, client, msg, Loser)
 }

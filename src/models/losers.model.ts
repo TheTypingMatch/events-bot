@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose'
 
-const userSchema = new mongoose.Schema({
+const loserSchema = new mongoose.Schema({
     date: {
         type: Object,
         required: true
@@ -19,8 +19,7 @@ const userSchema = new mongoose.Schema({
     },
     opponent: {
         type: Object,
-        required: false,
-        default: undefined
+        required: false
     },
     pastOpponents: {
         type: Array,
@@ -44,6 +43,6 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-const User = mongoose.model('User', userSchema)
+const Loser = mongoose.model('Loser', loserSchema)
 
-export { User }
+export { Loser }
