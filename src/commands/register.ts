@@ -1,5 +1,6 @@
 const fetch = require('node-fetch')
 import { User } from '../models/user.model'
+import { Tournament } from '../models/tournament.model'
 
 const urlExists = async (url: string) => {
     return await fetch(url)
@@ -21,6 +22,16 @@ const registerUser = (msg, ntLink: string) => {
 }
 
 export default async (msg, client, args) => {
+    const tournamentInfo = await Tournament.find({ isOpen: true }, err => {
+        if (err) {
+            client.logger.error(err)
+        }
+    })
+
+    if (!tournamentInfo[0].isOpen) {
+        return msg.reply('Registration is closed.')
+    }
+
     if (!args[0]) {
         return msg.reply('Use your TypeRacer **username** (NOT display name): Use `/register USERNAME`.')
     }
