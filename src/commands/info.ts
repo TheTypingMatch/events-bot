@@ -14,7 +14,7 @@ const createLeaderboard = stats => {
         leaderboardString += `\n**#${index + 1}** - **[${name}](${typeRacerLink})** - ${avgWpm}wpm`
     })
 
-    return leaderboardString
+    return leaderboardString || 'N/A'
 }
 
 export default async (msg, client, args) => {
