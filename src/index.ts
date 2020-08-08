@@ -18,7 +18,6 @@ client.loader = require('./modules/Loader')
 dotenv.config()
 functions(client)
 
-
 const URI: string = process.env.URI
 const URIParams: {} = {
     useNewUrlParser: true,

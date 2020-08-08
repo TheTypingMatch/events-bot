@@ -44,7 +44,7 @@ export default async (msg, client, args) => {
         .setColor(colors.green)
         .setAuthor(`${name}'s Stats`, msg.author.avatarURL())
         .setDescription(`[**TypeRacer**](${typeRacerLink})`)
-        .addField('Status', (losses) 
+        .addField('Status', (losses !== 0) 
             ? (losses === 1) 
                 ? 'Loser\'s Bracket' 
                 : 'Eliminated' 
