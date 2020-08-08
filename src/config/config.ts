@@ -21,5 +21,5 @@ const cooldowns: any = {
 
 export {
     colors, version, prefix, 
-    devMode, logEnabled, uriParams
+    devMode, logEnabled, uriParams, cooldowns
 }
