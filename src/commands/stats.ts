@@ -27,7 +27,7 @@ export default async (msg, client, args) => {
         .setTimestamp(new Date())
         .setFooter(`EventsBot v${version}`)
 
-    const userId = (args[0]) ? args[0].replace(/<@>/g, '') : msg.author.id
+    const userId = (args[0]) ? args[0].replace(/<|@|!|>/g, '') : msg.author.id
     const user = await User.findOne({ discordId: userId })
 
     if (!user) {

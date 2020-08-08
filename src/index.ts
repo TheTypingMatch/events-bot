@@ -2,6 +2,7 @@ const Discord = require('discord.js')
 const mongoDB = require('mongodb')
 const mongoose = require('mongoose')
 import * as dotenv from 'dotenv'
+import * as config from './config/config'
 import { initDatabase } from './db/init'
 import { functions } from './modules/functions'
 
@@ -11,11 +12,12 @@ const client: any = new Discord.Client({
     sync: true
 })
 
+client.config = config
+client.loader = require('./modules/Loader')
+
 dotenv.config()
 functions(client)
 
-client.config = require('./config/config.js')
-client.loader = require('./modules/Loader')
 
 const URI: string = process.env.URI
 const URIParams: {} = {
