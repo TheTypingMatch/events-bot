@@ -14,6 +14,8 @@ const sortUsers = (users: any[], sortType: string) => {
 }
 
 const functions = (client: any) => {
+    const { cooldowns } = client.config
+
     setInterval(client.refreshActivity = () => {
         client.logger.log('Updating presence...')
         client.user.setPresence({ 
@@ -24,7 +26,8 @@ const functions = (client: any) => {
             status: 'online'
         })
         client.logger.ready('Done updating presence.')
-    }, 5 * 60 * 1000)
+    }, cooldowns.activity)
+    
     setInterval(client.refreshLeaderboard = async () => {
         client.logger.log('Updating leaderboard...')
 
@@ -51,7 +54,7 @@ const functions = (client: any) => {
         })
 
         return client.logger.ready('Done updating leaderboard.')
-    }, 5 * 60 * 1000)
+    }, cooldowns.leaderboard)
 }
 
 export { functions }

@@ -14,6 +14,10 @@ const uriParams: any = {
     serverSelectionTimeoutMS: 5000,
     keepAlive: true
 }
+const cooldowns: any = {
+    leaderboard: 5 * 60 * 1000,
+    activity: 5 * 60 * 1000
+}
 
 export {
     colors, version, prefix, 
