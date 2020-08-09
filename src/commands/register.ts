@@ -28,7 +28,7 @@ export default async (msg, client, args) => {
         }
     })
 
-    if (!tournamentInfo.isOpen) {
+    if (!tournamentInfo[0].isOpen) {
         return msg.reply('Registration is closed.')
     }
 
