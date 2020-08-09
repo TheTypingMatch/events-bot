@@ -18,7 +18,7 @@ const pair = (users, client, msg, model) => {
             }
         }).then(err => {
             if (err) {
-                return client.error(err)
+                return client.logger.error(err)
             }
         })
     }
