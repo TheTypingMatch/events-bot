@@ -11,7 +11,7 @@ const createLeaderboard = stats => {
 
     stats.forEach((user, index) => {
         const { name, typeRacerLink, avgWpm } = user
-        leaderboardString += `\n**#${index + 1}** - **[${name}](${typeRacerLink})** - ${avgWpm}wpm`
+        leaderboardString += `\n**#${index + 1}** - **[${name}](${typeRacerLink})** - ${Math.round(avgWpm * 100) / 100}wpm`
     })
 
     return leaderboardString || 'N/A'

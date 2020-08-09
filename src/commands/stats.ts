@@ -50,7 +50,7 @@ export default async (msg, client, args) => {
                 : 'Eliminated' 
             : 'Winner\'s Bracket'
         )
-        .addField('Avg. WPM', `**${avgWpm}**wpm`, true)
+        .addField('Avg. WPM', `**${Math.round(avgWpm * 100) / 100}**wpm`, true)
         .addField('\u200b', '\u200b', true)
         .addField('Round Wins', `**${rounds - losses}** wins`, true)
         .addField('Past Opponents', formatOpponents(pastOpponents), true)
