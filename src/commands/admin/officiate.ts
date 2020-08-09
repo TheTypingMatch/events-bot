@@ -15,6 +15,8 @@ const createPairingInfo = (id, score, avgWpm) => {
 
 const updateUser = async (id, info) => await User.updateOne({ discordId: id }, info)
 
+const updateLeaderboard = async (client) => await client.refreshLeaderboard()
+
 const updateLogs = async (winnerInfo, loserInfo) => {
     const log = new MatchLog({
         date: new Date(),
@@ -76,6 +78,7 @@ export default async (msg, client, args) => {
         opponent: undefined
     })
 
+    await updateLeaderboard(client)
     return msg.reply('Success!')
 }
 

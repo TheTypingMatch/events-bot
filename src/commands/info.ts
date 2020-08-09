@@ -39,6 +39,5 @@ export default async (msg, client, args) => {
         .addField('Registration', (isOpen) ? 'Open' : 'Closed', true)
         .addField('Leaderboard', createLeaderboard(leaderboard))
 
-    infoEmbed.setDescription('The leaderboard updates every 5 minutes.')
     return msg.channel.send(infoEmbed)
 }

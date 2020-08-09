@@ -16,14 +16,14 @@ const pair = (users, client, msg, model) => {
                 discordId: newOpponent.discordId,
                 avgWpm: newOpponent.avgWpm
             }
-        }).then(err => {
+        }, err => {
             if (err) {
                 return client.logger.error(err)
             }
         })
     }
 
-    return msg.reply(`A bracket has been updated. 2 should update.`)
+    return msg.reply('A bracket has been updated. 2 should update.')
 }
 
 export default async (msg, client, args) => {
