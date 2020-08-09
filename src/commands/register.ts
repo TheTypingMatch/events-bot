@@ -8,17 +8,28 @@ const urlExists = async (url: string) => {
         .then((res: string | string[]) => res.includes('(TypeRacer Profile)'))
 }
 
-const registerUser = (msg, ntLink: string) => {
+const updateParticipantCount = async () => {
+    const users = await User.find()
+
+    return Tournament.updateOne({ __v: 0 }, { participants: users.length })
+}
+
+const registerUser = async (msg, ntLink: string) => {
     const user = new User({
         date: new Date(),
         name: msg.author.username,
         typeRacerLink: ntLink,
         discordId: msg.author.id
     })
-    user.save((err: any) => msg.reply((err)
-        ? 'Error creating account. Contact LeSirH!' 
-        : 'Success! See `/help`.'
-    ))
+
+    user.save(async (err: any) => {
+        if (err) {
+            return msg.reply('An error occurred. Contact <@296862365503193098>!')
+        }
+
+        msg.reply('Success! See `/help` for more information.')
+        return await updateParticipantCount()
+    })
 }
 
 export default async (msg, client, args) => {
@@ -55,6 +66,6 @@ export default async (msg, client, args) => {
 
     const trLinkExists: boolean = await urlExists(link)
     return (trLinkExists)
-        ? registerUser(msg, link)
+        ? await registerUser(msg, link)
         : msg.reply('Invalid TypeRacer profile link!')
 }
