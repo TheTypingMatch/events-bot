@@ -1,4 +1,4 @@
-import * as mongoose from 'mongoose'
+import * as mongoose from 'mongoose';
 
 const loserSchema = new mongoose.Schema({
     date: {
@@ -41,8 +41,8 @@ const loserSchema = new mongoose.Schema({
         required: false,
         default: 0
     }
-})
+});
 
-const Loser = mongoose.model('Loser', loserSchema)
+const Loser = mongoose.model('Loser', loserSchema);
 
-export { Loser }
+export { Loser };

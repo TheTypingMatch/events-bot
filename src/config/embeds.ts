@@ -9,6 +9,6 @@ const helpInfo = {
         info: ' - Show tournament information.',
         stats: ' - View your tournament stats.'
     }
-}
+};
 
-export { helpInfo }
+export { helpInfo };

@@ -1,4 +1,4 @@
-import * as mongoose from 'mongoose'
+import * as mongoose from 'mongoose';
 
 const tournamentSchema = new mongoose.Schema({
     date: {
@@ -8,7 +8,7 @@ const tournamentSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        default: "TheTypingMatch Tournament"
+        default: 'TheTypingMatch Tournament'
     },
     currentRound: {
         type: Number,
@@ -30,8 +30,8 @@ const tournamentSchema = new mongoose.Schema({
         required: false,
         default: true
     }
-})
+});
 
-const Tournament = mongoose.model('Tournament', tournamentSchema)
+const Tournament = mongoose.model('Tournament', tournamentSchema);
 
-export { Tournament }
+export { Tournament };

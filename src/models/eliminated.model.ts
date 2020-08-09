@@ -1,4 +1,4 @@
-import * as mongoose from 'mongoose'
+import * as mongoose from 'mongoose';
 
 const eliminatedSchema = new mongoose.Schema({
     date: {
@@ -41,8 +41,8 @@ const eliminatedSchema = new mongoose.Schema({
         required: false,
         default: 0
     }
-})
+});
 
-const Eliminated = mongoose.model('Eliminated', eliminatedSchema)
+const Eliminated = mongoose.model('Eliminated', eliminatedSchema);
 
-export { Eliminated }
+export { Eliminated };

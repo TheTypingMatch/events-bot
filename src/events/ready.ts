@@ -3,8 +3,8 @@ module.exports = async client => {
         resetDailyStreak, users,
         refreshActivity, logger,
         msgCooldowns, guilds, user
-    } = client
-    
-    refreshActivity()
-    logger.ready(`${user.username} is ready: ${users.cache.size} users`)
-}
+    } = client;
+
+    refreshActivity();
+    logger.ready(`${user.username} is ready: ${users.cache.size} users`);
+};

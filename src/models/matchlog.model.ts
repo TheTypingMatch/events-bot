@@ -1,4 +1,4 @@
-import * as mongoose from 'mongoose'
+import * as mongoose from 'mongoose';
 
 const matchlogSchema = new mongoose.Schema({
     date: {
@@ -29,8 +29,8 @@ const matchlogSchema = new mongoose.Schema({
         type: Number,
         required: true
     }
-})
+});
 
-const MatchLog = mongoose.model('MatchLog', matchlogSchema)
+const MatchLog = mongoose.model('MatchLog', matchlogSchema);
 
-export { MatchLog }
+export { MatchLog };
