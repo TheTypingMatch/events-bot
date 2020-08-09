@@ -7,7 +7,7 @@ const { uriParams } = require('../config/config');
 const defaultUri = 'mongodb://localhost:27017/events-bot'
 
 const initDatabase = (client: any) => {
-    mongoDB.connect(process.env.URI || defaultUri, uriParams, err => {
+    mongoDB.connect(process.env.URI, uriParams, err => {
         if (err) {
             return client.logger.error(err)
         }
@@ -15,7 +15,7 @@ const initDatabase = (client: any) => {
         return client.logger.ready('Successfully connected to database.')
     })
 
-    mongoose.connect(process.env.URI || defaultUri, uriParams, err => {
+    mongoose.connect(process.env.URI, uriParams, err => {
         if (err) {
             client.logger.error(err)
         }

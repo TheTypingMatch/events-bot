@@ -22,13 +22,14 @@ const registerUser = (msg, ntLink: string) => {
 }
 
 export default async (msg, client, args) => {
-    const tournamentInfo = await Tournament.find({ isOpen: true }, err => {
+    const tournamentInfo = await Tournament.find({ __v: 0 }, err => {
         if (err) {
             client.logger.error(err)
         }
     })
 
-    if (!tournamentInfo[0].isOpen) {
+    console.log(tournamentInfo)
+    if (!tournamentInfo.isOpen) {
         return msg.reply('Registration is closed.')
     }
 

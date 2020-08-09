@@ -31,7 +31,7 @@ module.exports = async (client: any, msg: any) => {
 
     if (!content.startsWith(config.prefix)) return
     if (!user && !generalCmds.includes(cmd)) {
-        return msg.reply('You must `$register` an account before using any other commands!')
+        return msg.reply('You must `/register` an account before using any other commands!')
     }
 
     // Command handler

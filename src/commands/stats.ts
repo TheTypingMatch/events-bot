@@ -11,10 +11,10 @@ const formatOpponents = pastOpponents => {
     let formattedOpponents = ''
     pastOpponents.forEach((opp, i) => {
         if (i === pastOpponents.length - 1) {
-            return formattedOpponents += `${(i > 0) ? '& ' : ''}${opp}`
+            return formattedOpponents += `${(i > 0) ? '& ' : ''}<@${opp}>`
         }
 
-        return formattedOpponents += `${opp}, `
+        return formattedOpponents += `<@${opp}>, `
     })
 
     return formattedOpponents

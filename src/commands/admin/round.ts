@@ -7,14 +7,9 @@ const createSeed = users => users.sort((a, b) => (a.avgWpm > b.avgWpm) ? 1 : -1)
 const pair = (users, client, msg, model) => {
     const seeds = createSeed(users)
 
-    console.log(seeds)
-
     for (let i = 0; i < seeds.length; i++) {
         let ID: any = { discordId: seeds[i].discordId }
         let newOpponent: any = seeds[(i % 2 === 0) ? i + 1 : i - 1]
-
-        console.log(`${ID.discordId} is paired with ${newOpponent.discordId}`)
-
 
         model.updateOne(ID, {
             opponent: {
