@@ -6,7 +6,7 @@ const matchlogSchema = new mongoose.Schema({
         required: true
     },
     winnerId: {
-        type: Number,
+        type: String,
         required: true
     },
     winnerWpm: {
@@ -18,7 +18,7 @@ const matchlogSchema = new mongoose.Schema({
         required: true
     },
     loserId: {
-        type: Number,
+        type: String,
         required: true
     },
     loserWpm: {
