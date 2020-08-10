@@ -1,8 +1,20 @@
 import { User } from '../../models/user.model';
 import { Loser } from '../../models/losers.model';
+import { Tournament } from '../../models/tournament.model';
 
 // Sorted by average WPM speed
 const createSeed = users => users.sort((a, b) => (a.avgWpm > b.avgWpm) ? 1 : -1);
+
+const updateRoundCount = async (client) => {
+    const tournInfo = await Tournament.find();
+    const { currentRound } = tournInfo[0];
+
+    await Tournament.updateOne({ __v: 0 }, {
+        currentRound: parseInt(currentRound) + 1
+    });
+
+    return client.logger.ready('A new round has started.');
+}
 
 const pair = (users, client, msg, model) => {
     const seeds = createSeed(users);
@@ -31,5 +43,7 @@ export default async (msg, client, args) => {
     const losers = await Loser.find();
 
     pair(winners, client, msg, User);
-    return pair(losers, client, msg, Loser);
+    pair(losers, client, msg, Loser);
+
+    return await updateRoundCount(client);
 };
