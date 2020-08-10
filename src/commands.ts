@@ -13,13 +13,19 @@ const run = async (cmd: string, msg, client, args: string[]) => {
 
     if (hasAdminPerms) {
         const adminCMD = await import(`./commands/admin/${cmd}`);
-        return adminCMD.default(msg, client, args);
+        
+        msg.channel.startTyping();
+        adminCMD.default(msg, client, args);
     }
 
-    if (fs.existsSync(generalPath)) {
+    else if (fs.existsSync(generalPath)) {
         const generalCMD = await import(`./commands/${cmd}`);
-        return generalCMD.default(msg, client, args);
+
+        msg.channel.startTyping();
+        generalCMD.default(msg, client, args);
     }
+
+    return msg.channel.stopTyping();
 };
 
 export { run };
