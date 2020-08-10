@@ -35,6 +35,19 @@ const updateLogs = async (winnerInfo, loserInfo) => {
     });
 };
 
+const eliminateUser = async id => {
+    const user = await User.findOne({ discordId: id });
+    
+    if (user.losses >= 2) {
+        const isEliminated = await Eliminated.findOne({ discordId: id });
+        
+        if (isEliminated) {
+            const eliminatedUser = new Eliminated(user);
+            return eliminatedUser.save();
+        }
+    }
+}
+
 export default async (msg, client, args) => {
     for (const arg of args) {
         if (isNaN(arg.replace(/<|@|!|>/g, ''))) {
@@ -77,6 +90,7 @@ export default async (msg, client, args) => {
         opponent: undefined
     });
 
+    await eliminateLoser(loserInfo.id);
     await updateLeaderboard(client);
     return msg.reply('Success!');
 };
