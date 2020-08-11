@@ -37,7 +37,7 @@ export default async (msg, client, args) => {
     const {
         name, typeRacerLink, avgWpm,
         wins, rounds, losses, pastOpponents,
-        opponent
+        opponent, disqualified
     } = user;
 
     statsEmbed
@@ -47,7 +47,7 @@ export default async (msg, client, args) => {
         .addField('Status', (losses !== 0)
             ? (losses === 1)
                 ? 'Loser\'s Bracket'
-                : 'Eliminated'
+                : (disqualified) ? 'Disqualified' : 'Eliminated'
             : 'Winner\'s Bracket'
         )
         .addField('Avg. WPM', `**${Math.round(avgWpm * 100) / 100}**wpm`, true)
