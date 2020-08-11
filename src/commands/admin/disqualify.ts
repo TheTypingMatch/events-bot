@@ -1,6 +1,7 @@
 import { User } from '../../models/user.model';
 import { Loser } from '../../models/losers.model';
 import { Eliminated } from '../../models/eliminated.model';
+import { default as officiate } from '../admin/officiate';
 
 const isEliminated = async (id: string) => await Eliminated.find({ discordId: id });
 
@@ -11,6 +12,15 @@ const findUser = async (client, userId) => {
         }
     });
 };
+
+const officiateDisqualified = async (msg, client, user) => {
+    if (user.opponent) {
+        return await officiate(msg, client, [
+            user.opponent.discordId, '0', '0', 
+            user.discordId, '0', '0'
+        ]);
+    }
+}
 
 export default async (msg, client, args) => {
     if (!args[0]) {
@@ -31,16 +41,20 @@ export default async (msg, client, args) => {
     const eliminatedUser = new Eliminated({
         date: new Date(),
         losses: 2,
+        disqualified: true,
         name, typeRacerLink,
         discordId, pastOpponents,
         avgWpm, rounds
     });
 
-    return eliminatedUser.save(err => {
+    eliminatedUser.save(err => {
         if (err) {
             return msg.channel.send('An error occurred.');
         }
 
-        return msg.channel.send(`<@${userId}> has been eliminated.`);
+        return msg.channel.send(`<@${userId}> has been disqualified. They will be auto-officiated in future rounds.`);
     });
+
+    await User.updateOne({ discordId: userId }, { disqualified: true });
+    return await officiateDisqualified(msg, client, user);
 };

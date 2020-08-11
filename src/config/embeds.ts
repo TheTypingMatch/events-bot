@@ -1,6 +1,6 @@
 const helpInfo = {
     desc: 'A bot to handle TheTypingMatch community server events!',
-    descInfo: '`/help Account`\n`/help Stats`',
+    descInfo: 'Star me on [**GitHub**](https://github.com/TheTypingMatch/events-bot)!\n\n`/help Account`\n`/help Stats`',
     account: {
         register: '`<tr-username>` - Make a profile using your TypeRacer username.'
     },

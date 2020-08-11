@@ -42,7 +42,18 @@ const eliminateUser = async id => {
         const isEliminated = await Eliminated.findOne({ discordId: id });
         
         if (isEliminated) {
-            const eliminatedUser = new Eliminated(user);
+            const { 
+                date, name, typeRacerLink, 
+                discordId, opponent, pastOpponents, 
+                avgWpm, losses, rounds, disqualified 
+            } = user
+
+            const eliminatedUser = new Eliminated({
+                date, name, typeRacerLink, 
+                discordId, opponent, pastOpponents, 
+                avgWpm, losses, rounds, disqualified 
+            });
+
             return eliminatedUser.save();
         }
     }
@@ -50,7 +61,7 @@ const eliminateUser = async id => {
 
 export default async (msg, client, args) => {
     for (const arg of args) {
-        if (isNaN(arg.replace(/<|@|!|>/g, ''))) {
+        if (isNaN(arg.toString().replace(/<|@|!|>/g, ''))) {
             return msg.reply(`One of the arguments provided is incorrect.${cmdInfo}`);
         }
     }
@@ -90,9 +101,9 @@ export default async (msg, client, args) => {
         opponent: undefined
     });
 
-    await eliminateLoser(loserInfo.id);
+    await eliminateUser(loserInfo.id);
     await updateLeaderboard(client);
-    return msg.reply('Success!');
+    return msg.reply('A match has been officiated.');
 };
 
 /*

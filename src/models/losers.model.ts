@@ -40,6 +40,11 @@ const loserSchema = new mongoose.Schema({
         type: Number,
         required: false,
         default: 0
+    },
+    disqualified: {
+        type: Boolean,
+        required: false,
+        default: false
     }
 });
 
