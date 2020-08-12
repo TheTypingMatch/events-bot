@@ -75,6 +75,14 @@ export default async (msg, client, args) => {
         return msg.reply('One or both of these users were not found.');
     }
 
+    if (!winnerStats.opponent || !loserStats.opponent) {
+        return msg.reply('One or both of these users don\'t have pairings.')
+    }
+
+    if (winnerStats.opponent.discordId !== loserStats.discordId) {
+        return msg.reply('These users don\'t seem to be paired.')
+    }
+
     try {
         await updateLogs(winnerInfo, loserInfo);
     } catch (err) {
