@@ -92,9 +92,9 @@ export default async (msg, client, args) => {
     
     await updateUser(winnerInfo.id, {
         rounds: winnerStats.rounds + 1,
-        avgWpm: (winnerInfo.avgWpm) 
+        avgWpm: (winnerStats.rounds !== 0) 
             ? ((winnerStats.avgWpm * winnerStats.rounds) + winnerInfo.avgWpm) / (winnerStats.rounds + 1) 
-            : winnerStats.avgWpm,
+            : winnerInfo.avgWpm,
         pastOpponents: [...winnerStats.pastOpponents, loserInfo.id],
         opponent: undefined
     });

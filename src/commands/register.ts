@@ -14,12 +14,32 @@ const updateParticipantCount = async () => {
     return Tournament.updateOne({ __v: 0 }, { participants: users.length });
 };
 
-const registerUser = async (msg, ntLink: string) => {
+const fetchAverage = async (url: string) => {
+    return fetch(url)
+        .then(res => res.text())
+        .then(res => {
+            const nums = [];
+            const userData = res.split(' ');
+
+            for (let data of userData) {
+                if (parseInt(data) && !isNaN(data)) {
+                    nums.push(parseInt(data));
+                }
+            }
+
+            return nums[1];
+        }).catch(err => 0);
+};
+
+const registerUser = async (msg, trLink: string) => {
+    const defaultWpm = await fetchAverage(trLink)
+
     const user = new User({
         date: new Date(),
         name: msg.author.username,
-        typeRacerLink: ntLink,
-        discordId: msg.author.id
+        typeRacerLink: trLink,
+        discordId: msg.author.id,
+        avgWpm: defaultWpm
     });
 
     user.save(async (err: any) => {
