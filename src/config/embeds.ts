@@ -7,7 +7,14 @@ const helpInfo = {
     stats: {
         ping: ' - Show bot latency.',
         info: ' - Show tournament information.',
-        stats: ' - View your tournament stats.'
+        stats: ' - View your tournament stats.',
+        logs: ' - View match logs.'
+    },
+    admin: {
+        disqualify: ' - Disqaulify a participant.',
+        officiate: ' - Log match scores.',
+        round: ' - Start a new round.',
+        status: ' - View TBD matches.'
     }
 };
 
