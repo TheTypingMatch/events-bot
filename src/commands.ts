@@ -9,7 +9,12 @@ const run = async (cmd: string, msg, client, args: string[]) => {
 
     const generalPath: string = path.resolve(`./build/commands/${cmd}.js`);
     const adminPath: string = path.resolve(`./build/commands/admin/${cmd}.js`);
-    const hasAdminPerms: boolean = (fs.existsSync(adminPath) && msg.author.id === '296862365503193098');
+    const hasAdminPerms: boolean = (
+        fs.existsSync(adminPath) && 
+        message.member.roles.find(r => {
+            return (r.name === "Event Manager" || r.name === "Event Officiator")
+        })
+    );
 
     if (hasAdminPerms) {
         const adminCMD = await import(`./commands/admin/${cmd}`);
