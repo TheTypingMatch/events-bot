@@ -9,7 +9,7 @@ module.exports = async (client: any, msg: any) => {
     // Handle command arguments
     const args: string[] = content.slice(config.prefix.length).trim().split(/ +/g);
     const cmd: string = args.shift().toLowerCase();
-    const generalCmds: string[] = ['help', 'register', 'ping', 'stats'];
+    const generalCmds: string[] = ['help', 'register', 'ping', 'stats', 'info', 'logs'];
 
     if (author.bot) return;
 
