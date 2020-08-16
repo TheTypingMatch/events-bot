@@ -1,11 +1,51 @@
+import { default as officiate } from './officiate';
 import { User } from '../../models/user.model';
 import { Loser } from '../../models/losers.model';
 import { Tournament } from '../../models/tournament.model';
 import disqualify from './disqualify';
-import { default as officiate } from './officiate';
+
+const shuffle = arr => {
+    let counter = arr.length;
+
+    while (counter > 0) {
+        let index = Math.floor(Math.random() * counter);
+
+        counter--;
+
+        let temp = arr[counter];
+        arr[counter] = arr[index];
+        arr[index] = temp;
+    }
+
+    return arr;
+}
 
 // Sorted by average WPM speed
-const createSeed = users => users.sort((a, b) => (a.avgWpm > b.avgWpm) ? 1 : -1);
+const createSeed = users => {
+    let brackets = [[], [], [], []];
+    const speedSortedUsers = users.sort((a, b) => (a.avgWpm > b.avgWpm) ? 1 : -1);
+
+    const addBracket = bracketNum => {
+        const user1 = speedSortedUsers.shift();
+        const user2 = speedSortedUsers.shift();
+        if (user1.avgWpm - user2.avgWpm > 10 || user1.avgWpm - user2.avgWpm < -10) {
+            brackets[bracketNum].push(user1);
+            brackets[bracketNum].push(user2);
+        }
+    }
+
+    let i = 0;
+    while (speedSortedUsers.length) {
+        addBracket(i % 4);
+        i += 1;
+    }
+
+    shuffle(brackets);
+    return [
+        ...brackets[0], ...brackets[1], 
+        ...brackets[2], ...brackets[3]
+    ];
+}
 
 const updateRoundCount = async (client) => {
     const tournInfo = await Tournament.find();
