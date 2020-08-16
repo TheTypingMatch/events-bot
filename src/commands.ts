@@ -11,7 +11,7 @@ const run = async (cmd: string, msg, client, args: string[]) => {
     const adminPath: string = path.resolve(`./build/commands/admin/${cmd}.js`);
     const hasAdminPerms: boolean = (
         fs.existsSync(adminPath) && 
-        message.member.roles.find(r => {
+        msg.member.roles.cache.some(r => {
             return (r.name === "Event Manager" || r.name === "Event Officiator")
         })
     );

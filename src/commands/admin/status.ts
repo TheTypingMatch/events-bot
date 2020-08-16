@@ -10,8 +10,10 @@ const formatBracket = async bracket => {
     let description = '';
 
     for (let user of bracket) {
-        if (user.rounds < currentRound && !description.includes(user.opponent.discordId)) {
-            description += `\n**<@${user.discordId}>** vs. **<@${user.opponent.discordId}>**`;
+        if (user && user.opponent) {
+            if (user.rounds < currentRound && !description.includes(user.opponent.discordId)) {
+                description += `\n**<@${user.discordId}>** vs. **<@${user.opponent.discordId}>**`;
+            }
         }
     }
 

@@ -7,7 +7,7 @@ export default async (msg, client, args) => {
         .setColor(colors.green)
         .setAuthor('Registration', msg.author.avatarURL())
         .setTimestamp(new Date())
-        .setFooter(`EventsBot v${version}`);
+        .setFooter(`EventsBot v${version}`)
         .setDescription('Registration has been closed.');
 
     Tournament.updateOne({ __v: 0 }, { isOpen: false });
