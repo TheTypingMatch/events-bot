@@ -75,7 +75,9 @@ export default async (msg, client, args) => {
     }
 
     // Check if someone is already registered with this NitroType link
-    const linkExists: any = await User.findOne({ nitroTypeLink: args[0] });
+    const linkExists: any = await User.findOne({ 
+        nitroTypeLink: args[0].toLowerCase() 
+    });
     if (linkExists) {
         return msg.reply('Someone is already registered with this account!');
     }
