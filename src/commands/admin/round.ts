@@ -22,29 +22,37 @@ const shuffle = arr => {
 
 // Sorted by average WPM speed
 const createSeed = users => {
-    let brackets = [[], [], [], []];
+    let brackets = [[], []];
     const speedSortedUsers = users.sort((a, b) => (a.avgWpm > b.avgWpm) ? 1 : -1);
 
-    const addBracket = bracketNum => {
-        const user1 = speedSortedUsers.shift();
-        const user2 = speedSortedUsers.shift();
-        if (user1.avgWpm - user2.avgWpm > 10 || user1.avgWpm - user2.avgWpm < -10) {
-            brackets[bracketNum].push(user1);
-            brackets[bracketNum].push(user2);
+    console.log(`BRACKET SPEED SORTED USERS: ${speedSortedUsers}`)
+
+    const addBracket = (bracketNum, overwrite) => {
+        const user1 = speedSortedUsers[0];
+        const user2 = speedSortedUsers[1];
+
+        if (overwrite === 'overwrite') {
+            brackets[bracketNum].push(speedSortedUsers.shift());
+            brackets[bracketNum].push(speedSortedUsers.shift());
+            console.log('overwrite')
+        }
+        
+        else if (user1.avgWpm - user2.avgWpm > 10 || user1.avgWpm - user2.avgWpm < -10) {
+            brackets[bracketNum].push(speedSortedUsers.shift());
+            brackets[bracketNum].push(speedSortedUsers.shift());
         }
     }
 
     let i = 0;
     while (speedSortedUsers.length) {
-        addBracket(i % 4);
+        addBracket(i % brackets.length, (i > 0) ? 'overwrite' : '');
         i += 1;
     }
 
+    console.log(`BRACKETS: ${brackets}`)
+
     shuffle(brackets);
-    return [
-        ...brackets[0], ...brackets[1], 
-        ...brackets[2], ...brackets[3]
-    ];
+    return [...brackets[0], ...brackets[1]];
 }
 
 const updateRoundCount = async (client) => {
