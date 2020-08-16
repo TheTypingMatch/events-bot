@@ -21,7 +21,7 @@ const fetchAverage = async (url: string) => {
             const nums = [];
             const userData = res.split(' ');
 
-            for (let data of userData) {
+            for (const data of userData) {
                 if (parseInt(data) && !isNaN(data)) {
                     nums.push(parseInt(data));
                 }
@@ -32,7 +32,7 @@ const fetchAverage = async (url: string) => {
 };
 
 const registerUser = async (msg, trLink: string) => {
-    const defaultWpm = await fetchAverage(trLink)
+    const defaultWpm = await fetchAverage(trLink);
 
     const user = new User({
         date: new Date(),

@@ -12,7 +12,7 @@ const run = async (cmd: string, msg, client, args: string[]) => {
     const hasAdminPerms: boolean = (
         fs.existsSync(adminPath) && 
         msg.member.roles.cache.some(r => {
-            return (r.name === "Event Manager" || r.name === "Event Officiator")
+            return (r.name === "Event Manager" || r.name === "Event Officiator");
         })
     );
 
@@ -21,9 +21,7 @@ const run = async (cmd: string, msg, client, args: string[]) => {
         
         msg.channel.startTyping();
         adminCMD.default(msg, client, args);
-    }
-
-    else if (fs.existsSync(generalPath)) {
+    } else if (fs.existsSync(generalPath)) {
         const generalCMD = await import(`./commands/${cmd}`);
 
         msg.channel.startTyping();

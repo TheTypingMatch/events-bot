@@ -8,24 +8,23 @@ const shuffle = arr => {
     let counter = arr.length;
 
     while (counter > 0) {
-        let index = Math.floor(Math.random() * counter);
+        const index = Math.floor(Math.random() * counter);
 
         counter--;
 
-        let temp = arr[counter];
+        const temp = arr[counter];
         arr[counter] = arr[index];
         arr[index] = temp;
     }
 
     return arr;
-}
+};
 
 // Sorted by average WPM speed
 const createSeed = users => {
-    let brackets = [[], []];
-    const speedSortedUsers = users.sort((a, b) => (a.avgWpm > b.avgWpm) ? 1 : -1);
-
-    console.log(`BRACKET SPEED SORTED USERS: ${speedSortedUsers}`)
+    const tempUsers = users;
+    const brackets = [[], []];
+    const speedSortedUsers = tempUsers.sort((a, b) => (a.avgWpm > b.avgWpm) ? 1 : -1);
 
     const addBracket = (bracketNum, overwrite) => {
         const user1 = speedSortedUsers[0];
@@ -34,14 +33,11 @@ const createSeed = users => {
         if (overwrite === 'overwrite') {
             brackets[bracketNum].push(speedSortedUsers.shift());
             brackets[bracketNum].push(speedSortedUsers.shift());
-            console.log('overwrite')
-        }
-        
-        else if (user1.avgWpm - user2.avgWpm > 10 || user1.avgWpm - user2.avgWpm < -10) {
+        } else if (user1.avgWpm - user2.avgWpm > 10 || user1.avgWpm - user2.avgWpm < -10) {
             brackets[bracketNum].push(speedSortedUsers.shift());
             brackets[bracketNum].push(speedSortedUsers.shift());
         }
-    }
+    };
 
     let i = 0;
     while (speedSortedUsers.length) {
@@ -49,11 +45,9 @@ const createSeed = users => {
         i += 1;
     }
 
-    console.log(`BRACKETS: ${brackets}`)
-
     shuffle(brackets);
     return [...brackets[0], ...brackets[1]];
-}
+};
 
 const updateRoundCount = async (client) => {
     const tournInfo = await Tournament.find();
@@ -64,11 +58,11 @@ const updateRoundCount = async (client) => {
     });
 
     return client.logger.ready('A new round has started.');
-}
+};
 
 // args: <@winner> <winner_score> <winner_wpm> <@loser> <loser_score> <loser_wpm>
 const officiateDisqualified = async (msg, client, bracket) => {
-    for (let user of bracket) {
+    for (const user of bracket) {
         if (user.disqualified && user.opponent) {
             await officiate(msg, client, [
                 user.opponent.discordId, '0', '0', 
@@ -76,7 +70,7 @@ const officiateDisqualified = async (msg, client, bracket) => {
             ]);
         }
     }
-}
+};
 
 const pair = async (users, client, msg) => {
     const seeds = createSeed(users);
@@ -106,11 +100,14 @@ export default async (msg, client, args) => {
     const winners = await User.find({ losses: 0 });
     const losers = await User.find({ losses: 1 });
 
+    const disqualifiedWinners = winners.filter(user => (user.disqualified && user.opponent));
+    const disqualifiedLosers = losers.filter(user => (user.disqualified && user.opponent));
+
     await pair(winners, client, msg);
     await pair(losers, client, msg);
 
-    await officiateDisqualified(msg, client, losers);
-    await officiateDisqualified(msg, client, winners);
+    await officiateDisqualified(msg, client, disqualifiedLosers);
+    await officiateDisqualified(msg, client, disqualifiedWinners);
 
     return await updateRoundCount(client);
 };

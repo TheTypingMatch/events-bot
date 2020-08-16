@@ -46,7 +46,7 @@ const eliminateUser = async id => {
                 date, name, typeRacerLink, 
                 discordId, opponent, pastOpponents, 
                 avgWpm, losses, rounds, disqualified 
-            } = user
+            } = user;
 
             const eliminatedUser = new Eliminated({
                 date, name, typeRacerLink, 
@@ -57,7 +57,7 @@ const eliminateUser = async id => {
             return eliminatedUser.save();
         }
     }
-}
+};
 
 export default async (msg, client, args) => {
     for (const arg of args) {
@@ -76,11 +76,11 @@ export default async (msg, client, args) => {
     }
 
     if (!winnerStats.opponent || !loserStats.opponent) {
-        return msg.reply('One or both of these users don\'t have pairings.')
+        return msg.reply('One or both of these users don\'t have pairings.');
     }
 
     if (winnerStats.opponent.discordId !== loserStats.discordId) {
-        return msg.reply('These users don\'t seem to be paired.')
+        return msg.reply('These users don\'t seem to be paired.');
     }
 
     try {

@@ -9,7 +9,7 @@ const formatBracket = async bracket => {
 
     let description = '';
 
-    for (let user of bracket) {
+    for (const user of bracket) {
         if (user && user.opponent) {
             if (user.rounds < currentRound && !description.includes(user.opponent.discordId)) {
                 description += `\n**<@${user.discordId}>** vs. **<@${user.opponent.discordId}>**`;
@@ -18,7 +18,7 @@ const formatBracket = async bracket => {
     }
 
     return description;
-}
+};
 
 export default async (msg, client, args) => {
     const statusEmbed = new MessageEmbed()

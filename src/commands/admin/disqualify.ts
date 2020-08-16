@@ -20,7 +20,7 @@ const officiateDisqualified = async (msg, client, user) => {
             user.discordId, '0', '0'
         ]);
     }
-}
+};
 
 export default async (msg, client, args) => {
     if (!args[0]) {
