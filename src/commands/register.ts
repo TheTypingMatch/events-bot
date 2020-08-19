@@ -75,18 +75,19 @@ export default async (msg, client, args) => {
     if (userExists) {
         return msg.reply('You already have an account!');
     }
+    
+    const link: string = (args[0].includes('data.typeracer.com/pit/profile?user='))
+        ? args[0].toLowerCase()
+        : `https://data.typeracer.com/pit/profile?user=${args[0]}`.toLowerCase();
 
-    // Check if someone is already registered with this NitroType link
+    // Check if someone is already registered with this TypeRacer link
     const linkExists: any = await User.findOne({ 
-        nitroTypeLink: args[0].toLowerCase() 
+        typeRacerLink: link
     });
+
     if (linkExists) {
         return msg.reply('Someone is already registered with this account!');
     }
-
-    const link: string = (args[0].includes('data.typeracer.com/pit/profile?user='))
-        ? args[0]
-        : `https://data.typeracer.com/pit/profile?user=${args[0]}`;
 
     const trLinkExists: boolean = await urlExists(link);
     return (trLinkExists)
