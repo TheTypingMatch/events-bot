@@ -49,9 +49,11 @@ export default async (msg, client, args) => {
 
     eliminatedUser.save(err => {
         if (err) {
+            client.logger.error(err);
             return msg.channel.send('An error occurred.');
         }
 
+        client.logger.ready(`${userId} has been disqualified succesfully.`);
         return msg.channel.send(`<@${userId}> has been disqualified. They will be auto-officiated in future rounds.`);
     });
 

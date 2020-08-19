@@ -31,7 +31,7 @@ const fetchAverage = async (url: string) => {
         }).catch(err => 0);
 };
 
-const registerUser = async (msg, trLink: string) => {
+const registerUser = async (client, msg, trLink: string) => {
     const defaultWpm = await fetchAverage(trLink);
 
     const user = new User({
@@ -44,9 +44,11 @@ const registerUser = async (msg, trLink: string) => {
 
     user.save(async (err: any) => {
         if (err) {
+            client.logger.error(err);
             return msg.reply('An error occurred. Contact <@296862365503193098>!');
         }
 
+        client.logger.ready(`${msg.author.username} (${msg.author.id}) has been registered to ${trLink} succesfully.`);
         msg.reply('Success! See `/help` for more information.');
         return await updateParticipantCount();
     });
@@ -88,6 +90,6 @@ export default async (msg, client, args) => {
 
     const trLinkExists: boolean = await urlExists(link);
     return (trLinkExists)
-        ? await registerUser(msg, link)
+        ? await registerUser(client, msg, link)
         : msg.reply('Invalid TypeRacer profile link!');
 };

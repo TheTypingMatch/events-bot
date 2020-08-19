@@ -111,6 +111,7 @@ export default async (msg, client, args) => {
 
     await eliminateUser(loserInfo.id);
     await updateLeaderboard(client);
+    client.logger.ready(`A match has been officiated with ${winnerInfo.id} vs ${loserInfo.id}`);
     return msg.reply('A match has been officiated.');
 };
 

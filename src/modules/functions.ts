@@ -17,7 +17,6 @@ const functions = (client: any) => {
     const { cooldowns } = client.config;
 
     setInterval(client.refreshActivity = () => {
-        client.logger.log('Updating presence...');
         client.user.setPresence({ 
             activity: {
                 type: 'WATCHING', 
@@ -29,8 +28,6 @@ const functions = (client: any) => {
     }, cooldowns.activity);
     
     setInterval(client.refreshLeaderboard = async () => {
-        client.logger.log('Updating leaderboard...');
-
         const users = await User.find({ __v: 0 }, err => {
             if (err) {
                 client.logger.err(err);

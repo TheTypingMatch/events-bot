@@ -10,6 +10,7 @@ export default async (msg, client, args) => {
         .setFooter(`EventsBot v${version}`)
         .setDescription('Registration has been closed.');
 
+    client.logger.ready('Registration has been closed.');
     Tournament.updateOne({ __v: 0 }, { isOpen: false });
     return msg.channel.send(statusEmbed);
 };
