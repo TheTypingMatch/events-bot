@@ -18,7 +18,7 @@ const createLeaderboard = stats => {
 };
 
 export default async (msg, client, args) => {
-    const tournamentInfo = await Tournament.find({ isOpen: true }, err => {
+    const tournamentInfo = await Tournament.find({ __v: 0 }, err => {
         if (err) {
             client.logger.error(err);
         }

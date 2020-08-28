@@ -32,16 +32,13 @@ const sortUsers = (users: any[], sortType: string) => {
 const createSeed = users => {
     const tempUsers = users;
     const brackets = [[], []];
-    const speedSortedUsers = tempUsers.sort((a, b) => (a.avgWpm > b.avgWpm) ? 1 : -1);
+    const speedSortedUsers = tempUsers.sort((a, b) => (a.avgWpm > b.avgWpm + 5) ? 1 : -1);
 
     const addBracket = (bracketNum, overwrite) => {
         const user1 = speedSortedUsers[0];
         const user2 = speedSortedUsers[1];
 
-        if (overwrite === 'overwrite') {
-            brackets[bracketNum].push(speedSortedUsers.shift());
-            brackets[bracketNum].push(speedSortedUsers.shift());
-        } else if (user1.avgWpm - user2.avgWpm > 10 || user1.avgWpm - user2.avgWpm < -10) {
+        if (overwrite === 'overwrite' || (user1.avgWpm - user2.avgWpm > 5 || user1.avgWpm - user2.avgWpm < -5)) {
             brackets[bracketNum].push(speedSortedUsers.shift());
             brackets[bracketNum].push(speedSortedUsers.shift());
         }
@@ -49,7 +46,7 @@ const createSeed = users => {
 
     let i = 0;
     while (speedSortedUsers.length) {
-        addBracket(i % brackets.length, (i > 0) ? 'overwrite' : '');
+        addBracket(i % brackets.length, (i >= 0) ? 'overwrite' : '');
         i += 1;
     }
 
