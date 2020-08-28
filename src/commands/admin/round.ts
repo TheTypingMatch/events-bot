@@ -20,6 +20,14 @@ const shuffle = arr => {
     return arr;
 };
 
+const sortUsers = (users: any[], sortType: string) => {
+    return users.sort((a, b) => {
+        return (a[sortType] > b[sortType]) ? 1 : (
+            (b[sortType] > a[sortType]) ? -1 : 0
+        );
+    });
+};
+
 // Sorted by average WPM speed
 const createSeed = users => {
     const tempUsers = users;
@@ -96,7 +104,47 @@ const pair = async (users, client, msg) => {
     return msg.channel.send('A bracket has been updated. 2 should update.');
 };
 
+const updateParticipantCount = async () => {
+    const users = await User.find();
+
+    return Tournament.updateOne({ __v: 0 }, { participants: users.length });
+};
+
+const createPlaceholders = async (client, participants: number) => {
+    const allUsers = await User.find({ __v: 0 });
+    const usersSorted = sortUsers(allUsers, 'avgWpm');
+
+    const speedRange = [usersSorted[0].avgWpm, usersSorted[usersSorted.length - 1].avgWpm];
+    const placeholderCount = participants - allUsers.length;
+
+    for (let i = 0; i < placeholderCount; i++) {
+        let newWPM = Math.round((Math.random() * speedRange[1]) + speedRange[0]);
+        let newPlaceholder = new User({
+            date: new Date(),
+            name: `placeholder${i}`,
+            typeRacerLink: `https://data.typeracer.com/pit/profile?user=placeholder${i}`,
+            discordId: `${i}`,
+            avgWpm: newWPM,
+            disqualified: true
+        });
+    
+        await newPlaceholder.save(err => {
+            if (err) {
+                return client.logger.error(err);
+            }
+
+            return client.logger.ready(`New placeholder created at ${newWPM}WPM.`);
+        });
+    }
+
+    return await updateParticipantCount();
+}
+
 export default async (msg, client, args) => {
+    if (args[0] && !isNaN(args[0])) {
+        await createPlaceholders(client, parseInt(args[0]));
+    }
+    
     const winners = await User.find({ losses: 0 });
     const losers = await User.find({ losses: 1 });
 

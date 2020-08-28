@@ -2,10 +2,11 @@ const fetch = require('node-fetch');
 import { User } from '../models/user.model';
 import { Tournament } from '../models/tournament.model';
 
-const urlExists = async (url: string) => {
+const urlExists = async (msg, url: string) => {
     return await fetch(url)
         .then((res: { text: () => any }) => res.text())
-        .then((res: string | string[]) => res.includes('(TypeRacer Profile)'));
+        .then((res: string | string[]) => res.includes('(TypeRacer Profile)'))
+        .catch(() => msg.reply('An error occurred.'));
 };
 
 const updateParticipantCount = async () => {
@@ -89,7 +90,7 @@ export default async (msg, client, args) => {
         return msg.reply('Someone is already registered with this account!');
     }
 
-    const trLinkExists: boolean = await urlExists(link);
+    const trLinkExists: boolean = await urlExists(msg, link);
     return (trLinkExists)
         ? await registerUser(client, msg, link)
         : msg.reply('Invalid TypeRacer profile link!');
