@@ -10,6 +10,9 @@ module.exports = async (client: any, msg: any) => {
     const args: string[] = content.slice(config.prefix.length).trim().split(/ +/g);
     const cmd: string = args.shift().toLowerCase();
     const generalCmds: string[] = ['help', 'register', 'ping', 'stats', 'info', 'logs'];
+    const hasAdminPerms = msg.member.roles.cache.some(r => {
+        return (r.name === "Event Manager" || r.name === "Event Officiator");
+    })
 
     if (author.bot) return;
 
@@ -30,6 +33,9 @@ module.exports = async (client: any, msg: any) => {
     }
 
     if (!content.startsWith(config.prefix)) return;
+    if (hasAdminPerms) {
+        return run(cmd, msg, client, args);
+    }
     if (!user && !generalCmds.includes(cmd)) {
         return msg.reply('You must `/register` an account before using any other commands!');
     }

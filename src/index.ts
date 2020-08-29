@@ -6,6 +6,8 @@ import * as config from './config/config';
 import { initDatabase } from './db/init';
 import { functions } from './modules/functions';
 
+import { User } from './models/user.model';
+
 const client: any = new Discord.Client({
     disableEveryone: true,
     fetchAllMembers: true,
