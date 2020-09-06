@@ -1,7 +1,7 @@
 import { MessageEmbed } from 'discord.js';
-import { colors, version } from '../../config/config';
-import { User } from '../../models/user.model';
-import { Tournament } from '../../models/tournament.model';
+import { colors, version } from '../config/config';
+import { User } from '../models/user.model';
+import { Tournament } from '../models/tournament.model';
 
 const formatBracket = async bracket => {
     const tournamentInfo = await Tournament.find();
