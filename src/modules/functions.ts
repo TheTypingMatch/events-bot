@@ -30,13 +30,13 @@ const functions = (client: any) => {
     setInterval(client.refreshLeaderboard = async () => {
         const users = await User.find({ __v: 0 }, err => {
             if (err) {
-                client.logger.err(err);
+                client.logger.error(err);
             }
         });
 
         const losers = await Loser.find({ __v: 0 }, err => {
             if (err) {
-                client.logger.err(err);
+                client.logger.error(err);
             }
         });
 

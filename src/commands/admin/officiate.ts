@@ -94,7 +94,7 @@ export default async (msg, client, args) => {
         rounds: winnerStats.rounds + 1,
         avgWpm: (winnerStats.rounds !== 0) 
             ? ((winnerStats.avgWpm * winnerStats.rounds) + winnerInfo.avgWpm) / (winnerStats.rounds + 1) 
-            : winnerInfo.avgWpm,
+            : winnerStats.avgWpm,
         pastOpponents: [...winnerStats.pastOpponents, loserInfo.id],
         opponent: undefined
     });
@@ -102,9 +102,9 @@ export default async (msg, client, args) => {
     await updateUser(loserInfo.id, {
         rounds: loserStats.rounds + 1,
         losses: loserStats.losses + 1,
-        avgWpm: (loserInfo.avgWpm) 
-            ? ((loserStats.avgWpm * loserStats.rounds) + loserInfo.avgWpm) / (loserStats.rounds + 1) 
-            : winnerStats.avgWpm,
+        avgWpm: (loserStats.rounds !== 0 || loserStats.avgWpm !== 0) // if its not round 1 and their average isn't 0
+            ? ((loserStats.avgWpm * loserStats.rounds) + loserInfo.avgWpm) / (loserStats.rounds + 1)
+            : loserStats.avgWpm,
         pastOpponents: [...loserStats.pastOpponents, winnerInfo.id],
         opponent: undefined
     });

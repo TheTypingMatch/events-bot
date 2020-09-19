@@ -5,6 +5,8 @@ module.exports = async (client: any, msg: any) => {
     const { content, author } = msg;
     const { logger, msgCooldowns, config } = client;
     const userId: string = author.id;
+    
+    if (author.bot) return;
 
     // Handle command arguments
     const args: string[] = content.slice(config.prefix.length).trim().split(/ +/g);
@@ -14,7 +16,6 @@ module.exports = async (client: any, msg: any) => {
         return (r.name === "Event Manager" || r.name === "Event Officiator");
     })
 
-    if (author.bot) return;
 
     // Check if the user has an account.
     const user = await User.findOne({ discordId: userId });
