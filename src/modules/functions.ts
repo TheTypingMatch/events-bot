@@ -42,7 +42,7 @@ const functions = (client: any) => {
 
         const topTen = getTopTen(sortUsers([...users, ...losers], 'avgWpm'));
 
-        Tournament.updateOne({ isOpen: true }, {
+        await Tournament.updateOne({ __v: 0 }, {
             leaderboard: topTen
         }, err => {
             if (err) {
