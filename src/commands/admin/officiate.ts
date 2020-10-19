@@ -59,6 +59,31 @@ const eliminateUser = async id => {
     }
 };
 
+const determineAvg = async (userInfo, roundAvg) => {
+    const { id, score, avgWpm } = userInfo;
+    const savedInfo = await User.findOne({ discordId: id });
+    const { rounds } = savedInfo;
+
+    if (rounds === 0 || savedInfo.avgWpm === 0) {
+        return roundAvg;
+    }
+    
+    if (roundAvg === 0) {
+        return savedInfo.avgWpm;
+    }
+
+    return ((rounds * savedInfo.avgWpm) + avgWpm) / (rounds + 1);
+
+    /*
+
+        - if its the first round, set it as their wpm
+        - if its not, and their avg is 0wpm set the score as their average
+        - if its not, and their average isn't 0wpm create an average
+        - if its not, and their average isn't 0wpm but their score is 0wpm, don't create an average.
+
+    */
+}
+
 export default async (msg, client, args) => {
     for (const arg of args) {
         if (isNaN(arg.toString().replace(/<|@|!|>/g, ''))) {
@@ -90,11 +115,12 @@ export default async (msg, client, args) => {
         return client.logger.error(err);
     }
     
+    const newWinnerAvg = await determineAvg(winnerInfo, winnerInfo.avgWpm);
+    const newLoserAvg = await determineAvg(loserInfo, loserInfo.avgWpm);
+    
     await updateUser(winnerInfo.id, {
         rounds: winnerStats.rounds + 1,
-        avgWpm: (winnerStats.rounds !== 0) 
-            ? ((winnerStats.avgWpm * winnerStats.rounds) + winnerInfo.avgWpm) / (winnerStats.rounds + 1) 
-            : winnerStats.avgWpm,
+        avgWpm: newWinnerAvg,
         pastOpponents: [...winnerStats.pastOpponents, loserInfo.id],
         opponent: undefined
     });
@@ -102,9 +128,7 @@ export default async (msg, client, args) => {
     await updateUser(loserInfo.id, {
         rounds: loserStats.rounds + 1,
         losses: loserStats.losses + 1,
-        avgWpm: (loserStats.rounds !== 0 || loserStats.avgWpm !== 0) // if its not round 1 and their average isn't 0
-            ? ((loserStats.avgWpm * loserStats.rounds) + loserInfo.avgWpm) / (loserStats.rounds + 1)
-            : loserStats.avgWpm,
+        avgWpm: newLoserAvg,
         pastOpponents: [...loserStats.pastOpponents, winnerInfo.id],
         opponent: undefined
     });
