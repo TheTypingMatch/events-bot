@@ -36,7 +36,7 @@ const registerUser = async (client, msg, trLink: string) => {
     const defaultWpm = await fetchAverage(trLink);
 
     if (defaultWpm === 0 || defaultWpm === 2020) {
-        msg.reply('This account does not have a WPM average! It is recommended that you race at least 10 times before competing.');
+        return msg.reply('This account does not have a WPM average! It is recommended that you race at least 10 times before competing.');
     }
 
     const user = new User({
