@@ -28,7 +28,7 @@ const fetchAverage = async (url: string) => {
                 }
             }
 
-            return nums[1];
+            return nums[2];
         }).catch(err => 0);
 };
 
